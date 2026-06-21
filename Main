@@ -1,0 +1,439 @@
+<!-- The Desktop Canvas -->
+<div id="desktop">
+  <!-- Sign in button -->
+  <button id="sign-in-btn">Sign In</button>
+
+   <!-- Resturant Tool -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Resturant Tool</div>
+    <div class="window-content">
+      <p>Resturant/Meal finder with filters</p>
+    </div>
+  </div>
+  <!-- Weather Tool -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Weather Tool</div>
+    <div class="window-content">
+      <p>Current weather information and forecast</p>
+    </div>
+  </div>
+  <!-- Outfit picker with weather implementation -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Outfit Picker</div>
+    <div class="window-content">
+      <p>Choose outfits based on weather conditions!</p>
+    </div>
+  </div>
+  <!-- Watch list epsisode tracker -->
+<div class="window" style="top: 50px; left: 50px;">
+  <div class="window-header">Watch List Tracker</div>
+  <div class="window-content" id="watchlist-content">
+    <p>Sign in to track shows and movies.</p>
+  </div>
+</div>
+  <!-- Count Down Timer in days hours mins and seconds -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Countdown Timer</div>
+    <div class="window-content">
+      <p>Set a timer for any event!</p>
+    </div>
+  </div>
+  <!-- Library of useful links  -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Link Tool</div>
+    <div class="window-content">
+      <p>Access your favorite websites in one place!</p>
+    </div>
+  </div>
+  <!-- Idea Lab -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Idea Lab</div>
+    <div class="window-content">
+      <p>Brainstorm and organize your ideas!</p>
+    </div>
+  </div>
+  <!-- Chud email signup creator -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Throwaway Email Creator</div>
+    <div class="window-content">
+      <p>Create temporary email addresses for privacy!</p>
+    </div>
+  </div>
+  <!-- Colour Palette Picker -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Colour Palette</div>
+    <div class="window-content">
+      <p>Choose from a variety of colors!</p>
+    </div>
+  </div>
+  <!--Settings Window -->
+<div class="window" id="settings-window" style="top: 20px; left: 400px; width: 250px;">
+  <div class="window-header">Control Panel</div>
+  <div class="window-content">
+    <label>Color: </label> <input type="color" id="bg-picker" value="#ffffff"><br>
+    <label>Shadows: </label> <input type="range" id="shadow-range" min="0" max="30" value="5"><br>
+
+    <label>Roundness: </label> 
+<input type="range" id="round-range" min="0" max="30" value="10"><br>
+
+<label>Frost Blur: </label> 
+<input type="range" id="blur-range" min="0" max="30" value="10">
+
+  </div>
+</div>
+
+
+</div>
+
+<!-- css for the desktop -->
+<style>
+    :root {
+  --bg-color: rgba(255, 255, 255, 0.7); 
+  --shadow-size: 5px;
+  --corner-radius: 10px;
+  --blur-amount: 10px;
+}
+
+body, html { height: 100%; margin: 0; background: #222; overflow: hidden; font-family: sans-serif; }
+#desktop { width: 100vw; height: 100vh; position: relative; }
+
+.window {
+    /*resizablilty for windows*/
+
+
+  width: 300px; min-height: 100px;
+  background: var(--bg-color);
+  position: absolute;
+  backdrop-filter: blur(var(--blur-amount)); 
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--corner-radius);
+  overflow: hidden; 
+  box-shadow: var(--shadow-size) var(--shadow-size) 20px rgba(0,0,0,0.2);
+  display: flex; flex-direction: column;
+  z-index: 10;
+}
+
+.window-header {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  cursor: move;
+  font-weight: bold;
+  user-select: none;
+  /* Smart text contrast for header */
+  color: #ddd;
+}
+
+.window-content { 
+  padding: 15px; 
+  flex-grow: 1;
+  color: #aaa;
+}
+
+/* This targets the sliders to look better on any background */
+input[type=range] {
+  accent-color: #666;
+  width: 100%;
+}
+.button-grid {
+  position: absolute;
+  top: 20px; left: 20px;
+  display: flex; flex-direction: column; gap: 10px;
+  z-index: 5;
+}
+
+</style>
+
+
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+document.querySelectorAll('.window').forEach(win => {
+  const header = win.querySelector('.window-header');
+  header.onmousedown = (e) => {
+    let shiftX = e.clientX - win.getBoundingClientRect().left;
+    let shiftY = e.clientY - win.getBoundingClientRect().top;
+    
+    function moveAt(pageX, pageY) {
+      win.style.left = pageX - shiftX + 'px';
+      win.style.top = pageY - shiftY + 'px';
+    }
+    
+    function onMouseMove(e) { moveAt(e.pageX, e.pageY); }
+    document.addEventListener('mousemove', onMouseMove);
+    
+    document.onmouseup = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+    };
+  };
+});
+<!--implementing the sliders-->
+const root = document.documentElement;
+// Link all inputs
+const bgPicker = document.getElementById('bg-picker');
+const shadowRange = document.getElementById('shadow-range');
+const roundRange = document.getElementById('round-range');
+const blurRange = document.getElementById('blur-range');
+// Update Background Color (with transparency added via '80')
+bgPicker.oninput = () => {
+  root.style.setProperty('--bg-color', bgPicker.value + '80');
+};
+// Update Shadows
+shadowRange.oninput = () => {
+    root.style.setProperty('--shadow-size', shadowRange.value + 'px');
+    };
+// Update Roundness
+roundRange.oninput = () => {
+    root.style.setProperty('--corner-radius', roundRange.value + 'px');
+    };
+// Update Blur
+blurRange.oninput = () => {
+    root.style.setProperty('--blur-amount', blurRange.value + 'px');
+    };
+
+// window resizing (basic implementation)
+document.querySelectorAll('.window').forEach(win => {
+    const resizer = document.createElement('div');
+    resizer.style.width = '10px';
+    resizer.style.height = '10px';
+    resizer.style.background = 'transparent';
+    resizer.style.position = 'absolute';
+    resizer.style.right = '0';
+    resizer.style.bottom = '0';
+    resizer.style.cursor = 'se-resize';
+    win.appendChild(resizer);
+    
+    resizer.onmousedown = (e) => {
+        e.preventDefault();
+        let startX = e.clientX;
+        let startY = e.clientY;
+        let startWidth = parseInt(document.defaultView.getComputedStyle(win).width, 10);
+        let startHeight = parseInt(document.defaultView.getComputedStyle(win).height, 10);
+        
+        function doDrag(e) {
+        win.style.width = (startWidth + e.clientX - startX) + 'px';
+        win.style.height = (startHeight + e.clientY - startY) + 'px';
+        }
+        
+        function stopDrag() {
+        document.documentElement.removeEventListener('mousemove', doDrag, false);
+        document.documentElement.removeEventListener('mouseup', stopDrag, false);
+        }
+        
+        document.documentElement.addEventListener('mousemove', doDrag, false);
+        document.documentElement.addEventListener('mouseup', stopDrag, false);
+    };
+    });
+
+
+   /* adding a grid of buttons to open each window but have them toggle windows on and off and have windows begin hidden */
+   const buttonGrid = document.createElement('div');
+   buttonGrid.className = 'button-grid';
+    const windowTitles = ['Resturant Tool', 'Weather Tool', 'Outfit Picker', 'Watch List Tracker', 'Countdown Timer', 'Link Tool', 'Idea Lab', 'Throwaway Email Creator', 'Colour Palette', 'Control Panel'];
+    windowTitles.forEach(title => {
+        const btn = document.createElement('button');
+        btn.textContent = title;
+        btn.onclick = () => {
+            const win = Array.from(document.querySelectorAll('.window')).find(w => w.querySelector('.window-header').textContent === title);
+            if (win.style.display === 'none') {
+                win.style.display = 'block';
+            } else {
+                win.style.display = 'none';
+            }
+        };
+        buttonGrid.appendChild(btn);
+    });
+    document.body.appendChild(buttonGrid);
+
+/* Initialize window positions */
+document.querySelectorAll('.window').forEach(win => {
+    win.style.left = '50px';
+    win.style.top = '50px';
+});
+
+/*Initially have all windows hidden */
+document.querySelectorAll('.window').forEach(win => {
+    win.style.display = 'none';
+});
+
+/* adding in interacting with a layer jumps it to the topmost layer*/
+document.querySelectorAll('.window').forEach(win => {
+    win.addEventListener('mousedown', () => {
+        document.querySelectorAll('.window').forEach(w => w.style.zIndex = '10');
+        win.style.zIndex = '20';
+    });
+});
+
+//Watchlist rating system JS code here//
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+const fbApp = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let currentUser = null;
+let watchItems = [];
+let unsubWatch = null;
+
+const signInBtn = document.getElementById('sign-in-btn');
+const watchlistContent = document.getElementById('watchlist-content');
+
+signInBtn.onclick = () => {
+  if (currentUser) {
+    auth.signOut();
+  } else {
+    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .catch(err => alert('Sign-in failed: ' + err.message));
+  }
+};
+
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+  signInBtn.textContent = user ? `Sign Out (${user.displayName})` : 'Sign In';
+  if (user) {
+    listenToWatchItems();
+  } else {
+    if (unsubWatch) unsubWatch();
+    watchItems = [];
+    watchlistContent.innerHTML = `<p>Sign in to track shows and movies.</p>`;
+  }
+});
+
+function listenToWatchItems() {
+  if (unsubWatch) unsubWatch();
+  unsubWatch = db.collection('trackedItems')
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(async snapshot => {
+      watchItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      await Promise.all(watchItems.map(loadRatings));
+      renderWatchlist();
+    }, err => console.error('Firestore error:', err));
+}
+
+async function loadRatings(item) {
+  const snap = await db.collection('trackedItems').doc(item.id).collection('ratings').get();
+  item._ratings = snap.docs.map(d => d.data());
+  const nums = item._ratings.map(r => r.rating);
+  item._avg = nums.length ? (nums.reduce((a, b) => a + b, 0) / nums.length) : null;
+}
+
+function renderWatchlist() {
+  watchlistContent.innerHTML = `
+    <form id="watch-add-form" class="watch-add-form">
+      <input type="text" id="watch-title" placeholder="Title" required />
+      <select id="watch-type">
+        <option value="movie">Movie</option>
+        <option value="tv">TV Show</option>
+      </select>
+      <div id="watch-tv-fields" style="display:none;">
+        <input type="number" id="watch-seasons" placeholder="Seasons" min="1" />
+        <input type="number" id="watch-eps-watched" placeholder="Eps watched" min="0" />
+        <input type="number" id="watch-eps-total" placeholder="Total eps" min="0" />
+      </div>
+      <select id="watch-status">
+        <option value="plan_to_watch">Plan to watch</option>
+        <option value="watching">Watching</option>
+        <option value="completed">Completed</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+    <div id="watch-list"></div>
+  `;
+
+  const typeSelect = document.getElementById('watch-type');
+  const tvFields = document.getElementById('watch-tv-fields');
+  typeSelect.onchange = () => tvFields.style.display = typeSelect.value === 'tv' ? 'block' : 'none';
+
+  document.getElementById('watch-add-form').onsubmit = onAddWatchItem;
+
+  const listEl = document.getElementById('watch-list');
+  if (!watchItems.length) {
+    listEl.innerHTML = `<p>Nothing tracked yet.</p>`;
+    return;
+  }
+
+  listEl.innerHTML = watchItems.map(itemHtml).join('');
+  watchItems.forEach(item => {
+    document.getElementById(`watch-rate-form-${item.id}`).onsubmit = e => onRate(e, item.id);
+    const del = document.getElementById(`watch-delete-${item.id}`);
+    if (del) del.onclick = () => onDelete(item.id, item.createdBy);
+  });
+}
+
+function itemHtml(item) {
+  const mine = item._ratings.find(r => r.uid === currentUser.uid);
+  const progress = item.type === 'tv'
+    ? ` · S${item.seasons || '?'} Ep ${item.episodesWatched || 0}${item.totalEpisodes ? '/' + item.totalEpisodes : ''}`
+    : '';
+  const canDelete = item.createdBy === currentUser.uid;
+
+  return `
+    <div class="watch-item">
+      <div>
+        <strong>${escapeHtml(item.title)}</strong> (${item.type === 'tv' ? 'TV' : 'Movie'})${progress}
+        — <em>${item.status.replace('_',' ')}</em>
+        ${canDelete ? `<button id="watch-delete-${item.id}">✕</button>` : ''}
+      </div>
+      <div>${item._avg !== null ? item._avg.toFixed(1) + '/10' : 'No ratings'} (${item._ratings.length})</div>
+      <form id="watch-rate-form-${item.id}">
+        <input type="number" name="rating" min="1" max="10" placeholder="1-10" value="${mine ? mine.rating : ''}" required />
+        <input type="text" name="review" placeholder="Review" value="${mine ? escapeHtml(mine.review || '') : ''}" />
+        <button type="submit">${mine ? 'Update' : 'Rate'}</button>
+      </form>
+      ${item._ratings.map(r => `<div>${escapeHtml(r.displayName)}: ${r.rating}/10 ${r.review ? '— ' + escapeHtml(r.review) : ''}</div>`).join('')}
+    </div>
+  `;
+}
+
+function onAddWatchItem(e) {
+  e.preventDefault();
+  const title = document.getElementById('watch-title').value.trim();
+  const type = document.getElementById('watch-type').value;
+  const status = document.getElementById('watch-status').value;
+  if (!title) return;
+
+  const data = { title, type, status, createdBy: currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+  if (type === 'tv') {
+    data.seasons = parseInt(document.getElementById('watch-seasons').value, 10) || null;
+    data.episodesWatched = parseInt(document.getElementById('watch-eps-watched').value, 10) || 0;
+    data.totalEpisodes = parseInt(document.getElementById('watch-eps-total').value, 10) || null;
+  } else {
+    data.seasons = null; data.episodesWatched = null; data.totalEpisodes = null;
+  }
+
+  db.collection('trackedItems').add(data).catch(err => alert('Add failed: ' + err.message));
+}
+
+function onRate(e, itemId) {
+  e.preventDefault();
+  const rating = parseInt(e.target.rating.value, 10);
+  const review = e.target.review.value.trim();
+  if (rating < 1 || rating > 10) return alert('Rating must be 1-10.');
+
+  db.collection('trackedItems').doc(itemId).collection('ratings').doc(currentUser.uid).set({
+    uid: currentUser.uid, displayName: currentUser.displayName, rating, review,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(err => alert('Rating failed: ' + err.message));
+}
+
+function onDelete(itemId, createdBy) {
+  if (createdBy !== currentUser.uid) return;
+  if (!confirm('Delete this item?')) return;
+  db.collection('trackedItems').doc(itemId).delete();
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : str;
+  return div.innerHTML;
+}
+
+</script>

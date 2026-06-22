@@ -326,6 +326,26 @@
   .wl-progress { color: #666; font-size: 0.72em; margin-left: 4px; }
 
   #wl-list p { color: #666; font-size: 0.85em; text-align: center; padding: 10px 0; }
+  .wl-stars {
+display: flex;
+gap: 2px;
+margin-top: 8px;
+}
+
+.wl-star {
+cursor: pointer;
+color: #777;
+font-size: 20px;
+transition: .2s;
+}
+
+.wl-star.active {
+color: gold;
+}
+
+.wl-star {
+transform: scale(1.15);
+}
 </style>
 
 <!-- Firebase SDK -->
@@ -565,8 +585,28 @@ function renderWatchlist() {
   listEl.innerHTML = items.map(itemCard).join('');
 
   items.forEach(item => {
-    const rateForm = document.getElementById('wl-rate-' + item.id);
-    if (rateForm) rateForm.onsubmit = e => onRate(e, item.id);
+    document.querySelectorAll('.wl-star').forEach(star => {
+star.onclick = () => {
+const itemId = star.dataset.item;
+const rating = parseInt(star.dataset.rating, 10);
+
+
+db.collection('trackedItems')
+  .doc(itemId)
+  .collection('ratings')
+  .doc(currentUser.uid)
+  .set({
+    uid: currentUser.uid,
+    displayName: currentUser.displayName,
+    rating,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .catch(err => alert('Rating failed: ' + err.message));
+
+
+};
+});
+
     const del = document.getElementById('wl-delete-' + item.id);
     if (del) del.onclick = () => onDelete(item.id, item.createdBy);
   });
@@ -597,34 +637,11 @@ function itemCard(item) {
         <span class="wl-avg">${avgStr}</span>
         <span class="wl-count">(${item._ratings.length})</span>
       </div>
-      <form id="wl-rate-${item.id}" class="wl-rate-form">
-        <input type="number" name="rating" min="1" max="10" placeholder="1-10" value="${mine ? mine.rating : ''}" required />
-        <input type="text" name="review" placeholder="Review…" value="${mine ? escapeHtml(mine.review || '') : ''}" />
-        <button type="submit">${mine ? '↺' : '＋'}</button>
-      </form>
-      ${item._ratings.length ? `
-        <div class="wl-reviews">
-          ${item._ratings.map(r => `
-            <div class="wl-review-line">
-              <strong>${escapeHtml(r.displayName)}</strong> ${r.rating}/10${r.review ? ' — ' + escapeHtml(r.review) : ''}
-            </div>
-          `).join('')}
-        </div>
-      ` : ''}
     </div>
   `;
 }
 
-function onRate(e, itemId) {
-  e.preventDefault();
-  const rating = parseInt(e.target.rating.value, 10);
-  const review = e.target.review.value.trim();
-  if (rating < 1 || rating > 10) return alert('Rating must be 1-10.');
-  db.collection('trackedItems').doc(itemId).collection('ratings').doc(currentUser.uid).set({
-    uid: currentUser.uid, displayName: currentUser.displayName, rating, review,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(err => alert('Rating failed: ' + err.message));
-}
+
 
 function onDelete(itemId, createdBy) {
   if (createdBy !== currentUser.uid) return;

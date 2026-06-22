@@ -3,6 +3,27 @@ import { db } from './firebase-init.js'; // Import the db
 // You need to pass currentUser into these functions from main.js 
 // because ui-manager doesn't know who the user is by default.
 
+
+export function initControlPanel() {
+    const root = document.documentElement;
+    const bgPicker = document.getElementById('bg-picker');
+    const shadowRange = document.getElementById('shadow-range');
+    const roundRange = document.getElementById('round-range');
+    const blurRange = document.getElementById('blur-range');
+
+    const updateUI = () => {
+        root.style.setProperty('--bg-color', bgPicker.value + '80');
+        root.style.setProperty('--shadow-size', shadowRange.value + 'px');
+        root.style.setProperty('--corner-radius', roundRange.value + 'px');
+        root.style.setProperty('--blur-amount', blurRange.value + 'px');
+    };
+
+    // Attach listeners
+    [bgPicker, shadowRange, roundRange, blurRange].forEach(el => {
+        if (el) el.addEventListener('input', updateUI);
+    });
+}
+
 export function initWindows() {
     // 1. Dragging Logic
     document.querySelectorAll('.window').forEach(win => {

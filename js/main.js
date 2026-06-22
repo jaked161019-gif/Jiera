@@ -1,7 +1,7 @@
 import { auth } from './firebase-init.js';
 import { initWindows, initControlPanel, loadSettings } from './ui-manager.js';
 import { bindWatchlistControls, listenToWatchItems, renderWatchlist } from './watchlist.js';
-
+import {} from './coountdown.js'
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize UI elements
     initWindows();

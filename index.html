@@ -1,15 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>My Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="desktop">...</div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<div id="desktop">
+    <button id="sign-in-btn">Sign In</button>
 
-    <script type="module" src="js/main.js"></script>
+    <div class="window">
+        <div class="window-header">Resturant Tool</div>
+        <div class="window-content">
+            <p>Resturant/Meal finder with filters</p>
+        </div>
+    </div>
+
+    <div class="window">
+        <div class="window-header">Weather Tool</div>
+        <div class="window-content">
+            <p>Current weather information and forecast</p>
+        </div>
+    </div>
+
+    <div class="window">
+        <div class="window-header">Outfit Picker</div>
+        <div class="window-content">
+            <p>Choose outfits based on weather conditions!</p>
+        </div>
+    </div>
+
+    <div class="window">
+        <div class="window-header">Watch List Tracker</div>
+        <div class="window-content" id="watchlist-content">
+            <div id="wl-add-section">
+                <div class="wl-row">
+                    <input type="text" id="wl-title" placeholder="Title" class="wl-input-title" />
+                    <select id="wl-type" class="wl-select">
+                        <option value="movie">Movie</option>
+                        <option value="tv">TV Show</option>
+                    </select>
+                </div>
+                <div id="wl-tv-fields" style="display:none;" class="wl-row">
+                    <input type="number" id="wl-seasons" placeholder="Seasons" min="1" class="wl-input-sm" />
+                    <input type="number" id="wl-eps-watched" placeholder="Eps watched" min="0" class="wl-input-sm" />
+                    <input type="number" id="wl-eps-total" placeholder="Total eps" min="0" class="wl-input-sm" />
+                </div>
+                <div class="wl-row">
+                    <select id="wl-status" class="wl-select">
+                        <option value="plan_to_watch">Plan to watch</option>
+                        <option value="watching">Watching</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <button id="wl-add-btn" class="wl-btn-add">＋ Add</button>
+                </div>
+            </div>
+            <div id="wl-controls" class="wl-controls">
+                <select id="wl-filter-status" class="wl-select-sm">
+                    <option value="all">All statuses</option>
+                    <option value="watching">Watching</option>
+                    <option value="completed">Completed</option>
+                    <option value="plan_to_watch">Plan to watch</option>
+                </select>
+                <select id="wl-filter-type" class="wl-select-sm">
+                    <option value="all">All types</option>
+                    <option value="movie">Movies</option>
+                    <option value="tv">TV only</option>
+                </select>
+                <select id="wl-sort" class="wl-select-sm">
+                    <option value="added">Recent</option>
+                    <option value="alpha">A → Z</option>
+                    <option value="rating">Top rated</option>
+                </select>
+            </div>
+            <div id="wl-list"></div>
+        </div>
+    </div>
+
+    <div class="window">
+        <div class="window-header">Countdown Timer</div>
+        <div class="window-content">
+            <input type="text" id="cd-title" placeholder="Event Name">
+            <input type="datetime-local" id="cd-date">
+            <button id="cd-add-btn">Create Timer</button>
+            <div id="cd-display"></div>
+        </div>
+    </div>
+
+    <div class="window" id="settings-window">
+        <div class="window-header">Control Panel</div>
+        <div class="window-content">
+            <label>Color: </label> <input type="color" id="bg-picker" value="#ffffff"><br>
+            <label>Shadows: </label> <input type="range" id="shadow-range" min="0" max="30" value="5"><br>
+            <label>Roundness: </label> <input type="range" id="round-range" min="0" max="30" value="10"><br>
+            <label>Frost Blur: </label> <input type="range" id="blur-range" min="0" max="30" value="10">
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script type="module" src="js/main.js"></script>
+
 </body>
 </html>

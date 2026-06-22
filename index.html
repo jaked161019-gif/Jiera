@@ -185,16 +185,49 @@ const blurRange = document.getElementById('blur-range');
 
 bgPicker.oninput = () => {
   root.style.setProperty('--bg-color', bgPicker.value + '80');
+  saveSettings();
 };
 shadowRange.oninput = () => {
   root.style.setProperty('--shadow-size', shadowRange.value + 'px');
+  saveSettings();
 };
 roundRange.oninput = () => {
   root.style.setProperty('--corner-radius', roundRange.value + 'px');
+  saveSettings();
 };
 blurRange.oninput = () => {
   root.style.setProperty('--blur-amount', blurRange.value + 'px');
+  saveSettings();
 };
+
+// ---------- Persist control panel settings ----------
+function saveSettings() {
+  if (!currentUser) return;
+  db.collection('userSettings').doc(currentUser.uid).set({
+    bgColor: bgPicker.value,
+    shadow: shadowRange.value,
+    roundness: roundRange.value,
+    blur: blurRange.value
+  }).catch(err => console.error('Failed to save settings:', err));
+}
+
+function applySettings(data) {
+  bgPicker.value = data.bgColor;
+  shadowRange.value = data.shadow;
+  roundRange.value = data.roundness;
+  blurRange.value = data.blur;
+  root.style.setProperty('--bg-color', data.bgColor + '80');
+  root.style.setProperty('--shadow-size', data.shadow + 'px');
+  root.style.setProperty('--corner-radius', data.roundness + 'px');
+  root.style.setProperty('--blur-amount', data.blur + 'px');
+}
+
+function loadSettings() {
+  if (!currentUser) return;
+  db.collection('userSettings').doc(currentUser.uid).get()
+    .then(doc => { if (doc.exists) applySettings(doc.data()); })
+    .catch(err => console.error('Failed to load settings:', err));
+}
 
 // ---------- Window resizing ----------
 document.querySelectorAll('.window').forEach(win => {
@@ -288,6 +321,7 @@ auth.onAuthStateChanged(user => {
   signInBtn.textContent = user ? `Sign Out (${user.displayName})` : 'Sign In';
   if (user) {
     listenToWatchItems();
+    loadSettings();
   } else {
     if (unsubWatch) unsubWatch();
     watchItems = [];

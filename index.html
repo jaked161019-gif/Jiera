@@ -161,12 +161,12 @@
     color: #ddd;
   }
 
-  .window-content {
-    padding: 15px;
-    flex-grow: 1;
-    color: #aaa;
-    overflow-y: auto;
-  }
+.window-content {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
 
   input[type=range] { accent-color: #666; width: 100%; }
 
@@ -180,75 +180,53 @@
   /* Watchlist styles */
   #wl-add-section { margin-bottom: 8px; }
 
-  .wl-row {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 4px;
-    flex-wrap: wrap;
-  }
+.wl-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: nowrap;
+  width: 100%;
+}
 
-  .wl-input-title {
-    flex: 1;
-    min-width: 0;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #eee;
-    border-radius: 5px;
-    padding: 4px 7px;
-    font-size: 0.85em;
-  }
+.wl-input-title {
+  flex: 3;
+  min-width: 120px;
+  width: 100%;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+}
 
-  .wl-input-sm {
-    width: 70px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #eee;
-    border-radius: 5px;
-    padding: 4px 5px;
-    font-size: 0.8em;
-  }
+.wl-input-sm {
+  flex: 1;
+  min-width: 80px;
+  width: 100%;
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
+}
 
-  .wl-select {
-    flex: 1;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #eee;
-    border-radius: 5px;
-    padding: 4px 5px;
-    font-size: 0.82em;
-  }
+.wl-select {
+  flex: 2;
+  min-width: 120px;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+}
 
-  .wl-btn-add {
-    background: rgba(255,255,255,0.12);
-    border: none;
-    color: #eee;
-    border-radius: 5px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 0.85em;
-    white-space: nowrap;
-  }
+.wl-btn-add {
+  flex-shrink: 0;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  padding: 6px 12px;
+}
   .wl-btn-add:hover { background: rgba(255,255,255,0.2); }
 
-  .wl-controls {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 6px;
-  }
+.wl-controls {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
 
-  .wl-select-sm {
-    flex: 1;
-    min-width: 70px;
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: #aaa;
-    border-radius: 5px;
-    padding: 3px 4px;
-    font-size: 0.75em;
-  }
+.wl-select-sm {
+  flex: 1;
+  min-width: 120px;
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
+  color: #eee;
+}
 
   #wl-list { margin-top: 2px; }
 

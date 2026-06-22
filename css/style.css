@@ -1,1 +1,218 @@
 
+  :root {
+    --bg-color: rgba(255, 255, 255, 0.7);
+    --shadow-size: 5px;
+    --corner-radius: 10px;
+    --blur-amount: 10px;
+  }
+
+  body, html { height: 100%; margin: 0; background: #222; overflow: hidden; font-family: sans-serif; }
+  #desktop { width: 100vw; height: 100vh; position: relative; }
+
+  .window {
+    width: 300px; min-height: 100px;
+    background: var(--bg-color);
+    position: absolute;
+    backdrop-filter: blur(var(--blur-amount));
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--corner-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-size) var(--shadow-size) 20px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+    z-index: 10;
+  }
+
+  .window-header {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: move;
+    font-weight: bold;
+    user-select: none;
+    color: #ddd;
+  }
+
+.window-content {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+  input[type=range] { accent-color: #666; width: 100%; }
+
+  .button-grid {
+    position: absolute;
+    top: 20px; left: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    z-index: 5;
+  }
+
+  /* Watchlist styles */
+  #wl-add-section { margin-bottom: 8px; }
+
+.wl-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.wl-input-title {
+  flex: 3;
+  min-width: 120px;
+  width: 100%;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+}
+
+.wl-input-sm {
+  flex: 1;
+  min-width: 80px;
+  width: 100%;
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
+}
+
+.wl-select {
+  flex: 2;
+  min-width: 120px;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+}
+
+.wl-btn-add {
+  flex-shrink: 0;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  padding: 6px 12px;
+}
+  .wl-btn-add:hover { background: rgba(255,255,255,0.2); }
+
+.wl-controls {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.wl-select-sm {
+  flex: 1;
+  min-width: 120px;
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
+  color: #eee;
+}
+
+  #wl-list { margin-top: 2px; }
+
+  .wl-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 9px 10px;
+    margin-bottom: 7px;
+    background: rgba(0,0,0,0.18);
+  }
+
+  .wl-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3px;
+  }
+
+  .wl-title { color: #eee; font-weight: 600; font-size: 0.9em; }
+  .wl-badge {
+    display: inline-block;
+    font-size: 0.68em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    background: rgba(255,255,255,0.08);
+    color: #999;
+  }
+
+  .wl-meta { font-size: 0.75em; margin-bottom: 5px; }
+  .wl-status-badge { font-weight: 600; font-size: 0.78em; }
+  .wl-avg { color: #f5c518; margin-left: 7px; font-size: 0.8em; }
+  .wl-count { color: #555; margin-left: 3px; font-size: 0.75em; }
+
+  .wl-rate-form {
+    display: flex;
+    gap: 4px;
+    margin-top: 5px;
+  }
+
+  .wl-rate-form input[type=number] {
+    width: auto;
+    flex: 1;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #eee;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 0.8em;
+  }
+
+  .wl-rate-form input[type=text] {
+    flex: 1;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #eee;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.8em;
+  }
+
+  .wl-rate-form button {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #eee;
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 0.82em;
+  }
+  .wl-rate-form button:hover { background: rgba(255,255,255,0.2); }
+
+  .wl-delete-btn {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 0.85em;
+    padding: 0 2px;
+    line-height: 1;
+  }
+  .wl-delete-btn:hover { color: #e05c5c; }
+
+  .wl-reviews {
+    margin-top: 5px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 4px;
+  }
+
+  .wl-review-line {
+    font-size: 0.72em;
+    color: #777;
+    margin-bottom: 2px;
+  }
+  .wl-review-line strong { color: #999; }
+
+  .wl-progress { color: #666; font-size: 0.72em; margin-left: 4px; }
+
+  #wl-list p { color: #666; font-size: 0.85em; text-align: center; padding: 10px 0; }
+  .wl-stars {
+display: flex;
+gap: 2px;
+margin-top: 8px;
+}
+
+.wl-star {
+cursor: pointer;
+color: #777;
+font-size: 20px;
+transition: .2s;
+}
+
+.wl-star.active {
+color: gold;
+}
+
+.wl-star {
+transform: scale(1.15);
+}

@@ -320,8 +320,8 @@ auth.onAuthStateChanged(user => {
   currentUser = user;
   signInBtn.textContent = user ? `Sign Out (${user.displayName})` : 'Sign In';
   if (user) {
-    listenToWatchItems();
     loadSettings();
+    listenToWatchItems();
   } else {
     if (unsubWatch) unsubWatch();
     watchItems = [];

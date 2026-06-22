@@ -2,6 +2,8 @@
 import { auth } from './firebase-init.js';
 import { initWindows, loadSettings } from './ui-manager.js';
 import { bindWatchlistControls, listenToWatchItems, renderWatchlist } from './watchlist.js';
+import { bindCountdownControls } from './countdown.js';
+
 
 // 1. Initialize Window Behavior
 initWindows();
@@ -16,6 +18,7 @@ auth.onAuthStateChanged(user => {
         loadSettings(user.uid);
         bindWatchlistControls(user, (items) => renderWatchlist(items, user));
         listenToWatchItems(user, (items) => renderWatchlist(items, user));
+        bindCountdownControls(user, renderCountdowns);
     } else {
         // Clear Watchlist UI if logged out
         const listEl = document.getElementById('wl-list');

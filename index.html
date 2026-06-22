@@ -25,12 +25,55 @@
     </div>
   </div>
   <!-- Watch list epsisode tracker -->
-  <div class="window" style="top: 50px; left: 50px;">
-    <div class="window-header">Watch List Tracker</div>
-    <div class="window-content" id="watchlist-content">
-      <p>Sign in to track shows and movies.</p>
+<div class="window" style="top: 50px; left: 50px;">
+  <div class="window-header">Watch List Tracker</div>
+  <div class="window-content" id="watchlist-content">
+
+    <!-- Add form -->
+    <div id="wl-add-section">
+      <input type="text" id="wl-title" placeholder="Title" />
+      <select id="wl-type">
+        <option value="movie">Movie</option>
+        <option value="tv">TV Show</option>
+      </select>
+      <div id="wl-tv-fields" style="display:none;">
+        <input type="number" id="wl-seasons" placeholder="Seasons" min="1" />
+        <input type="number" id="wl-eps-watched" placeholder="Eps watched" min="0" />
+        <input type="number" id="wl-eps-total" placeholder="Total eps" min="0" />
+      </div>
+      <select id="wl-status">
+        <option value="plan_to_watch">Plan to watch</option>
+        <option value="watching">Watching</option>
+        <option value="completed">Completed</option>
+      </select>
+      <button id="wl-add-btn">＋ Add</button>
     </div>
+
+    <!-- Filters & sort -->
+    <div id="wl-controls">
+      <select id="wl-filter-status">
+        <option value="all">All</option>
+        <option value="watching">Watching</option>
+        <option value="completed">Completed</option>
+        <option value="plan_to_watch">Plan to watch</option>
+      </select>
+      <select id="wl-filter-type">
+        <option value="all">Movies & TV</option>
+        <option value="movie">Movies only</option>
+        <option value="tv">TV only</option>
+      </select>
+      <select id="wl-sort">
+        <option value="added">Recently added</option>
+        <option value="alpha">A → Z</option>
+        <option value="rating">Top rated</option>
+      </select>
+    </div>
+
+    <!-- List -->
+    <div id="wl-list"></div>
+
   </div>
+</div>
   <!-- Count Down Timer in days hours mins and seconds -->
   <div class="window" style="top: 50px; left: 50px;">
     <div class="window-header">Countdown Timer</div>
@@ -299,12 +342,14 @@ document.querySelectorAll('.window').forEach(win => {
   });
 });
 
-// ---------- Watchlist rating system ----------
+// =============================================
+// Watchlist
+// =============================================
 let currentUser = null;
-let watchItems = [];
-let unsubWatch = null;
+let watchItems  = [];
+let unsubWatch  = null;
 
-const signInBtn = document.getElementById('sign-in-btn');
+const signInBtn        = document.getElementById('sign-in-btn');
 const watchlistContent = document.getElementById('watchlist-content');
 
 signInBtn.onclick = () => {
@@ -318,16 +363,53 @@ signInBtn.onclick = () => {
 
 auth.onAuthStateChanged(user => {
   currentUser = user;
-  signInBtn.textContent = user ? `Sign Out (${user.displayName})` : 'Sign In';
+  signInBtn.textContent = user ? 'Sign Out (' + user.displayName + ')' : 'Sign In';
   if (user) {
     loadSettings();
     listenToWatchItems();
+    bindWatchlistControls();
   } else {
     if (unsubWatch) unsubWatch();
     watchItems = [];
-    watchlistContent.innerHTML = `<p>Sign in to track shows and movies.</p>`;
+    document.getElementById('wl-list').innerHTML = '<p>Sign in to track shows and movies.</p>';
   }
 });
+
+function bindWatchlistControls() {
+  // Add button
+  document.getElementById('wl-type').onchange = function() {
+    document.getElementById('wl-tv-fields').style.display = this.value === 'tv' ? 'block' : 'none';
+  };
+
+  document.getElementById('wl-add-btn').onclick = () => {
+    const title  = document.getElementById('wl-title').value.trim();
+    const type   = document.getElementById('wl-type').value;
+    const status = document.getElementById('wl-status').value;
+    if (!title) return;
+
+    const data = {
+      title, type, status,
+      createdBy: currentUser.uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if (type === 'tv') {
+      data.seasons         = parseInt(document.getElementById('wl-seasons').value, 10) || null;
+      data.episodesWatched = parseInt(document.getElementById('wl-eps-watched').value, 10) || 0;
+      data.totalEpisodes   = parseInt(document.getElementById('wl-eps-total').value, 10) || null;
+    } else {
+      data.seasons = null; data.episodesWatched = null; data.totalEpisodes = null;
+    }
+
+    db.collection('trackedItems').add(data)
+      .then(() => { document.getElementById('wl-title').value = ''; })
+      .catch(err => alert('Add failed: ' + err.message));
+  };
+
+  // Filters & sort — re-render on change
+  document.getElementById('wl-filter-status').onchange = renderWatchlist;
+  document.getElementById('wl-filter-type').onchange   = renderWatchlist;
+  document.getElementById('wl-sort').onchange          = renderWatchlist;
+}
 
 function listenToWatchItems() {
   if (unsubWatch) unsubWatch();
@@ -344,94 +426,88 @@ async function loadRatings(item) {
   const snap = await db.collection('trackedItems').doc(item.id).collection('ratings').get();
   item._ratings = snap.docs.map(d => d.data());
   const nums = item._ratings.map(r => r.rating);
-  item._avg = nums.length ? (nums.reduce((a, b) => a + b, 0) / nums.length) : null;
+  item._avg = nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : null;
 }
 
 function renderWatchlist() {
-  watchlistContent.innerHTML = `
-    <form id="watch-add-form" class="watch-add-form">
-      <input type="text" id="watch-title" placeholder="Title" required />
-      <select id="watch-type">
-        <option value="movie">Movie</option>
-        <option value="tv">TV Show</option>
-      </select>
-      <div id="watch-tv-fields" style="display:none;">
-        <input type="number" id="watch-seasons" placeholder="Seasons" min="1" />
-        <input type="number" id="watch-eps-watched" placeholder="Eps watched" min="0" />
-        <input type="number" id="watch-eps-total" placeholder="Total eps" min="0" />
-      </div>
-      <select id="watch-status">
-        <option value="plan_to_watch">Plan to watch</option>
-        <option value="watching">Watching</option>
-        <option value="completed">Completed</option>
-      </select>
-      <button type="submit">Add</button>
-    </form>
-    <div id="watch-list"></div>
-  `;
+  const listEl = document.getElementById('wl-list');
+  if (!listEl) return;
 
-  const typeSelect = document.getElementById('watch-type');
-  const tvFields = document.getElementById('watch-tv-fields');
-  typeSelect.onchange = () => tvFields.style.display = typeSelect.value === 'tv' ? 'block' : 'none';
+  const filterStatus = document.getElementById('wl-filter-status').value;
+  const filterType   = document.getElementById('wl-filter-type').value;
+  const sort         = document.getElementById('wl-sort').value;
 
-  document.getElementById('watch-add-form').onsubmit = onAddWatchItem;
+  let items = [...watchItems];
 
-  const listEl = document.getElementById('watch-list');
-  if (!watchItems.length) {
-    listEl.innerHTML = `<p>Nothing tracked yet.</p>`;
+  // Filter
+  if (filterStatus !== 'all') items = items.filter(i => i.status === filterStatus);
+  if (filterType   !== 'all') items = items.filter(i => i.type   === filterType);
+
+  // Sort
+  if (sort === 'alpha')  items.sort((a, b) => a.title.localeCompare(b.title));
+  if (sort === 'rating') items.sort((a, b) => (b._avg || 0) - (a._avg || 0));
+  // 'added' stays as Firestore desc order
+
+  if (!items.length) {
+    listEl.innerHTML = '<p style="color:#888;font-size:0.85em;">Nothing here yet.</p>';
     return;
   }
 
-  listEl.innerHTML = watchItems.map(itemHtml).join('');
-  watchItems.forEach(item => {
-    document.getElementById(`watch-rate-form-${item.id}`).onsubmit = e => onRate(e, item.id);
-    const del = document.getElementById(`watch-delete-${item.id}`);
+  listEl.innerHTML = items.map(itemCard).join('');
+
+  items.forEach(item => {
+    const rateForm = document.getElementById('wl-rate-' + item.id);
+    if (rateForm) rateForm.onsubmit = e => onRate(e, item.id);
+    const del = document.getElementById('wl-delete-' + item.id);
     if (del) del.onclick = () => onDelete(item.id, item.createdBy);
   });
 }
 
-function itemHtml(item) {
-  const mine = item._ratings.find(r => r.uid === currentUser.uid);
-  const progress = item.type === 'tv'
-    ? ` · S${item.seasons || '?'} Ep ${item.episodesWatched || 0}${item.totalEpisodes ? '/' + item.totalEpisodes : ''}`
-    : '';
+const STATUS_LABEL = { watching: '▶ Watching', completed: '✓ Completed', plan_to_watch: '⊕ Plan to watch' };
+const STATUS_COLOR = { watching: '#4a90d9', completed: '#5cb85c', plan_to_watch: '#f0ad4e' };
+
+function itemCard(item) {
+  const mine      = item._ratings.find(r => r.uid === currentUser.uid);
   const canDelete = item.createdBy === currentUser.uid;
+  const progress  = item.type === 'tv'
+    ? 'S' + (item.seasons || '?') + ' · Ep ' + (item.episodesWatched || 0) + (item.totalEpisodes ? '/' + item.totalEpisodes : '')
+    : '';
+  const avgStr    = item._avg !== null ? '⭐ ' + item._avg.toFixed(1) + ' / 10' : 'No ratings yet';
+  const statusCol = STATUS_COLOR[item.status] || '#888';
+  const statusLbl = STATUS_LABEL[item.status] || item.status;
 
   return `
-    <div class="watch-item">
-      <div>
-        <strong>${escapeHtml(item.title)}</strong> (${item.type === 'tv' ? 'TV' : 'Movie'})${progress}
-        — <em>${item.status.replace('_',' ')}</em>
-        ${canDelete ? `<button id="watch-delete-${item.id}">✕</button>` : ''}
+    <div style="border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;margin-bottom:8px;background:rgba(0,0,0,0.15);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <strong style="color:#eee;">${escapeHtml(item.title)}</strong>
+          <span style="font-size:0.75em;color:#888;margin-left:6px;">${item.type === 'tv' ? 'TV' : 'Movie'}</span>
+          ${progress ? '<span style="font-size:0.75em;color:#888;margin-left:4px;">' + progress + '</span>' : ''}
+        </div>
+        ${canDelete ? `<button id="wl-delete-${item.id}" style="background:none;border:none;color:#666;cursor:pointer;font-size:0.9em;">✕</button>` : ''}
       </div>
-      <div>${item._avg !== null ? item._avg.toFixed(1) + '/10' : 'No ratings'} (${item._ratings.length})</div>
-      <form id="watch-rate-form-${item.id}">
-        <input type="number" name="rating" min="1" max="10" placeholder="1-10" value="${mine ? mine.rating : ''}" required />
-        <input type="text" name="review" placeholder="Review" value="${mine ? escapeHtml(mine.review || '') : ''}" />
-        <button type="submit">${mine ? 'Update' : 'Rate'}</button>
+      <div style="margin:4px 0;">
+        <span style="font-size:0.75em;font-weight:600;color:${statusCol};">${statusLbl}</span>
+        <span style="font-size:0.8em;color:#f5c518;margin-left:8px;">${avgStr}</span>
+        <span style="font-size:0.75em;color:#666;margin-left:4px;">(${item._ratings.length})</span>
+      </div>
+      <form id="wl-rate-${item.id}" style="display:flex;gap:4px;margin-top:6px;">
+        <input type="number" name="rating" min="1" max="10" placeholder="1-10" value="${mine ? mine.rating : ''}" required style="width:52px;background:#111;border:1px solid #333;color:#eee;border-radius:4px;padding:2px 4px;" />
+        <input type="text" name="review" placeholder="Review…" value="${mine ? escapeHtml(mine.review || '') : ''}" style="flex:1;background:#111;border:1px solid #333;color:#eee;border-radius:4px;padding:2px 6px;" />
+        <button type="submit" style="background:#333;border:none;color:#eee;border-radius:4px;padding:2px 8px;cursor:pointer;">${mine ? '↺' : '＋'}</button>
       </form>
-      ${item._ratings.map(r => `<div>${escapeHtml(r.displayName)}: ${r.rating}/10 ${r.review ? '— ' + escapeHtml(r.review) : ''}</div>`).join('')}
+      ${item._ratings.length ? `
+        <div style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:4px;">
+          ${item._ratings.map(r => `
+            <div style="font-size:0.75em;color:#888;margin-bottom:2px;">
+              <strong style="color:#aaa;">${escapeHtml(r.displayName)}</strong>
+              ${r.rating}/10${r.review ? ' — ' + escapeHtml(r.review) : ''}
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
     </div>
   `;
-}
-
-function onAddWatchItem(e) {
-  e.preventDefault();
-  const title = document.getElementById('watch-title').value.trim();
-  const type = document.getElementById('watch-type').value;
-  const status = document.getElementById('watch-status').value;
-  if (!title) return;
-
-  const data = { title, type, status, createdBy: currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
-  if (type === 'tv') {
-    data.seasons = parseInt(document.getElementById('watch-seasons').value, 10) || null;
-    data.episodesWatched = parseInt(document.getElementById('watch-eps-watched').value, 10) || 0;
-    data.totalEpisodes = parseInt(document.getElementById('watch-eps-total').value, 10) || null;
-  } else {
-    data.seasons = null; data.episodesWatched = null; data.totalEpisodes = null;
-  }
-
-  db.collection('trackedItems').add(data).catch(err => alert('Add failed: ' + err.message));
 }
 
 function onRate(e, itemId) {
@@ -457,4 +533,3 @@ function escapeHtml(str) {
   div.textContent = str == null ? '' : str;
   return div.innerHTML;
 }
-</script>

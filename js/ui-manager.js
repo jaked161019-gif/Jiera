@@ -39,15 +39,25 @@ export function initWindows() {
     buttonGrid.className = 'button-grid';
     const windowTitles = ['Resturant Tool','Weather Tool','Outfit Picker','Watch List Tracker','Countdown Timer','Link Tool','Idea Lab','Throwaway Email Creator','Colour Palette','Control Panel'];
     
-    windowTitles.forEach(title => {
-        const btn = document.createElement('button');
-        btn.textContent = title;
-        btn.onclick = () => {
-            const win = Array.from(document.querySelectorAll('.window')).find(w => w.querySelector('.window-header').textContent === title);
+    // Inside your button loop in ui-manager.js:
+windowTitles.forEach(title => {
+    const btn = document.createElement('button');
+    btn.textContent = title;
+    btn.onclick = () => {
+        const win = Array.from(document.querySelectorAll('.window')).find(w => 
+            w.querySelector('.window-header').textContent === title
+        );
+        
+        // This 'if' prevents the crash if the window isn't found
+        if (win) {
             win.style.display = win.style.display === 'none' ? 'block' : 'none';
-        };
-        buttonGrid.appendChild(btn);
-    });
+        } else {
+            console.warn("Window not found:", title);
+        }
+    };
+    buttonGrid.appendChild(btn);
+});
+
     document.body.appendChild(buttonGrid);
 
     // Initial window state

@@ -1,19 +1,19 @@
-
 import { auth } from './firebase-init.js';
-import { initWindows, loadSettings } from './ui-manager.js';
-import { bindWatchlistControls, listenToWatchItems, renderWatchlist } from './watchlist.js';
-import { bindCountdownControls } from './countdown.js';
+import { initWindows } from './ui-manager.js';
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Everything that interacts with HTML goes here
+    initWindows();
 
-// 1. Initialize Window Behavior
-initWindows();
-
-// 2. Handle Authentication and Data Loading
-auth.onAuthStateChanged(user => {
-    const signInBtn = document.getElementById('sign-in-btn');
-    signInBtn.textContent = user ? 'Sign Out' : 'Sign In';
-
-    if (user) {
+    auth.onAuthStateChanged(user => {
+        const signInBtn = document.getElementById('sign-in-btn');
+        // Check if it exists before setting textContent
+        if (signInBtn) {
+            signInBtn.textContent = user ? 'Sign Out (' + user.displayName + ')' : 'Sign In';
+        }
+        
+        if (user) {
+            // ... your other init logic ...
         // Initialize user-specific tools
         loadSettings(user.uid);
         bindWatchlistControls(user, (items) => renderWatchlist(items, user));
@@ -24,4 +24,6 @@ auth.onAuthStateChanged(user => {
         const listEl = document.getElementById('wl-list');
         if (listEl) listEl.innerHTML = '<p>Sign in to track shows.</p>';
     }
+        }
+    });
 });

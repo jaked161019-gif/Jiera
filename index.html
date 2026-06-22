@@ -3,7 +3,7 @@
   <!-- Sign in button -->
   <button id="sign-in-btn">Sign In</button>
 
-   <!-- Resturant Tool -->
+  <!-- Resturant Tool -->
   <div class="window" style="top: 50px; left: 50px;">
     <div class="window-header">Resturant Tool</div>
     <div class="window-content">
@@ -17,71 +17,77 @@
       <p>Current weather information and forecast</p>
     </div>
   </div>
-  <!-- Outfit picker with weather implementation -->
+  <!-- Outfit picker -->
   <div class="window" style="top: 50px; left: 50px;">
     <div class="window-header">Outfit Picker</div>
     <div class="window-content">
       <p>Choose outfits based on weather conditions!</p>
     </div>
   </div>
-  <!-- Watch list epsisode tracker -->
-<div class="window" style="top: 50px; left: 50px;">
-  <div class="window-header">Watch List Tracker</div>
-  <div class="window-content" id="watchlist-content">
 
-    <!-- Add form -->
-    <div id="wl-add-section">
-      <input type="text" id="wl-title" placeholder="Title" />
-      <select id="wl-type">
-        <option value="movie">Movie</option>
-        <option value="tv">TV Show</option>
-      </select>
-      <div id="wl-tv-fields" style="display:none;">
-        <input type="number" id="wl-seasons" placeholder="Seasons" min="1" />
-        <input type="number" id="wl-eps-watched" placeholder="Eps watched" min="0" />
-        <input type="number" id="wl-eps-total" placeholder="Total eps" min="0" />
+  <!-- Watch List Tracker -->
+  <div class="window" style="top: 50px; left: 50px;">
+    <div class="window-header">Watch List Tracker</div>
+    <div class="window-content" id="watchlist-content">
+
+      <!-- Add form -->
+      <div id="wl-add-section">
+        <div class="wl-row">
+          <input type="text" id="wl-title" placeholder="Title" class="wl-input-title" />
+          <select id="wl-type" class="wl-select">
+            <option value="movie">Movie</option>
+            <option value="tv">TV Show</option>
+          </select>
+        </div>
+        <div id="wl-tv-fields" style="display:none;" class="wl-row">
+          <input type="number" id="wl-seasons"     placeholder="Seasons"     min="1" class="wl-input-sm" />
+          <input type="number" id="wl-eps-watched" placeholder="Eps watched" min="0" class="wl-input-sm" />
+          <input type="number" id="wl-eps-total"   placeholder="Total eps"   min="0" class="wl-input-sm" />
+        </div>
+        <div class="wl-row">
+          <select id="wl-status" class="wl-select">
+            <option value="plan_to_watch">Plan to watch</option>
+            <option value="watching">Watching</option>
+            <option value="completed">Completed</option>
+          </select>
+          <button id="wl-add-btn" class="wl-btn-add">＋ Add</button>
+        </div>
       </div>
-      <select id="wl-status">
-        <option value="plan_to_watch">Plan to watch</option>
-        <option value="watching">Watching</option>
-        <option value="completed">Completed</option>
-      </select>
-      <button id="wl-add-btn">＋ Add</button>
+
+      <!-- Filters & sort -->
+      <div id="wl-controls" class="wl-controls">
+        <select id="wl-filter-status" class="wl-select-sm">
+          <option value="all">All statuses</option>
+          <option value="watching">Watching</option>
+          <option value="completed">Completed</option>
+          <option value="plan_to_watch">Plan to watch</option>
+        </select>
+        <select id="wl-filter-type" class="wl-select-sm">
+          <option value="all">All types</option>
+          <option value="movie">Movies</option>
+          <option value="tv">TV only</option>
+        </select>
+        <select id="wl-sort" class="wl-select-sm">
+          <option value="added">Recent</option>
+          <option value="alpha">A → Z</option>
+          <option value="rating">Top rated</option>
+        </select>
+      </div>
+
+      <!-- List -->
+      <div id="wl-list"></div>
+
     </div>
-
-    <!-- Filters & sort -->
-    <div id="wl-controls">
-      <select id="wl-filter-status">
-        <option value="all">All</option>
-        <option value="watching">Watching</option>
-        <option value="completed">Completed</option>
-        <option value="plan_to_watch">Plan to watch</option>
-      </select>
-      <select id="wl-filter-type">
-        <option value="all">Movies & TV</option>
-        <option value="movie">Movies only</option>
-        <option value="tv">TV only</option>
-      </select>
-      <select id="wl-sort">
-        <option value="added">Recently added</option>
-        <option value="alpha">A → Z</option>
-        <option value="rating">Top rated</option>
-      </select>
-    </div>
-
-    <!-- List -->
-    <div id="wl-list"></div>
-
   </div>
-</div>
-  <!-- Count Down Timer in days hours mins and seconds -->
+
+  <!-- Countdown Timer -->
   <div class="window" style="top: 50px; left: 50px;">
     <div class="window-header">Countdown Timer</div>
     <div class="window-content">
       <p>Set a timer for any event!</p>
     </div>
   </div>
-  <!-- Library of useful links  -->
+  <!-- Link Tool -->
   <div class="window" style="top: 50px; left: 50px;">
     <div class="window-header">Link Tool</div>
     <div class="window-content">
@@ -95,96 +101,263 @@
       <p>Brainstorm and organize your ideas!</p>
     </div>
   </div>
-  <!-- Chud email signup creator -->
+  <!-- Throwaway Email -->
   <div class="window" style="top: 50px; left: 50px;">
     <div class="window-header">Throwaway Email Creator</div>
     <div class="window-content">
       <p>Create temporary email addresses for privacy!</p>
     </div>
   </div>
-  <!-- Colour Palette Picker -->
+  <!-- Colour Palette -->
   <div class="window" style="top: 50px; left: 50px;">
     <div class="window-header">Colour Palette</div>
     <div class="window-content">
       <p>Choose from a variety of colors!</p>
     </div>
   </div>
-  <!--Settings Window -->
+  <!-- Control Panel -->
   <div class="window" id="settings-window" style="top: 20px; left: 400px; width: 250px;">
     <div class="window-header">Control Panel</div>
     <div class="window-content">
       <label>Color: </label> <input type="color" id="bg-picker" value="#ffffff"><br>
       <label>Shadows: </label> <input type="range" id="shadow-range" min="0" max="30" value="5"><br>
-
-      <label>Roundness: </label>
-      <input type="range" id="round-range" min="0" max="30" value="10"><br>
-
-      <label>Frost Blur: </label>
-      <input type="range" id="blur-range" min="0" max="30" value="10">
+      <label>Roundness: </label> <input type="range" id="round-range" min="0" max="30" value="10"><br>
+      <label>Frost Blur: </label> <input type="range" id="blur-range" min="0" max="30" value="10">
     </div>
   </div>
 
 </div>
 
-<!-- css for the desktop -->
 <style>
-    :root {
-  --bg-color: rgba(255, 255, 255, 0.7); 
-  --shadow-size: 5px;
-  --corner-radius: 10px;
-  --blur-amount: 10px;
-}
+  :root {
+    --bg-color: rgba(255, 255, 255, 0.7);
+    --shadow-size: 5px;
+    --corner-radius: 10px;
+    --blur-amount: 10px;
+  }
 
-body, html { height: 100%; margin: 0; background: #222; overflow: hidden; font-family: sans-serif; }
-#desktop { width: 100vw; height: 100vh; position: relative; }
+  body, html { height: 100%; margin: 0; background: #222; overflow: hidden; font-family: sans-serif; }
+  #desktop { width: 100vw; height: 100vh; position: relative; }
 
-.window {
-  width: 300px; min-height: 100px;
-  background: var(--bg-color);
-  position: absolute;
-  backdrop-filter: blur(var(--blur-amount)); 
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: var(--corner-radius);
-  overflow: hidden; 
-  box-shadow: var(--shadow-size) var(--shadow-size) 20px rgba(0,0,0,0.2);
-  display: flex; flex-direction: column;
-  z-index: 10;
-}
+  .window {
+    width: 300px; min-height: 100px;
+    background: var(--bg-color);
+    position: absolute;
+    backdrop-filter: blur(var(--blur-amount));
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--corner-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-size) var(--shadow-size) 20px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+    z-index: 10;
+  }
 
-.window-header {
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.1);
-  cursor: move;
-  font-weight: bold;
-  user-select: none;
-  color: #ddd;
-}
+  .window-header {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: move;
+    font-weight: bold;
+    user-select: none;
+    color: #ddd;
+  }
 
-.window-content { 
-  padding: 15px; 
-  flex-grow: 1;
-  color: #aaa;
-}
+  .window-content {
+    padding: 15px;
+    flex-grow: 1;
+    color: #aaa;
+    overflow-y: auto;
+  }
 
-input[type=range] {
-  accent-color: #666;
-  width: 100%;
-}
-.button-grid {
-  position: absolute;
-  top: 20px; left: 20px;
-  display: flex; flex-direction: column; gap: 10px;
-  z-index: 5;
-}
+  input[type=range] { accent-color: #666; width: 100%; }
+
+  .button-grid {
+    position: absolute;
+    top: 20px; left: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    z-index: 5;
+  }
+
+  /* Watchlist styles */
+  #wl-add-section { margin-bottom: 8px; }
+
+  .wl-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .wl-input-title {
+    flex: 1;
+    min-width: 0;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #eee;
+    border-radius: 5px;
+    padding: 4px 7px;
+    font-size: 0.85em;
+  }
+
+  .wl-input-sm {
+    width: 70px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #eee;
+    border-radius: 5px;
+    padding: 4px 5px;
+    font-size: 0.8em;
+  }
+
+  .wl-select {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #eee;
+    border-radius: 5px;
+    padding: 4px 5px;
+    font-size: 0.82em;
+  }
+
+  .wl-btn-add {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #eee;
+    border-radius: 5px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 0.85em;
+    white-space: nowrap;
+  }
+  .wl-btn-add:hover { background: rgba(255,255,255,0.2); }
+
+  .wl-controls {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 6px;
+  }
+
+  .wl-select-sm {
+    flex: 1;
+    min-width: 70px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #aaa;
+    border-radius: 5px;
+    padding: 3px 4px;
+    font-size: 0.75em;
+  }
+
+  #wl-list { margin-top: 2px; }
+
+  .wl-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 9px 10px;
+    margin-bottom: 7px;
+    background: rgba(0,0,0,0.18);
+  }
+
+  .wl-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3px;
+  }
+
+  .wl-title { color: #eee; font-weight: 600; font-size: 0.9em; }
+  .wl-badge {
+    display: inline-block;
+    font-size: 0.68em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    background: rgba(255,255,255,0.08);
+    color: #999;
+  }
+
+  .wl-meta { font-size: 0.75em; margin-bottom: 5px; }
+  .wl-status-badge { font-weight: 600; font-size: 0.78em; }
+  .wl-avg { color: #f5c518; margin-left: 7px; font-size: 0.8em; }
+  .wl-count { color: #555; margin-left: 3px; font-size: 0.75em; }
+
+  .wl-rate-form {
+    display: flex;
+    gap: 4px;
+    margin-top: 5px;
+  }
+
+  .wl-rate-form input[type=number] {
+    width: 50px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #eee;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 0.8em;
+  }
+
+  .wl-rate-form input[type=text] {
+    flex: 1;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #eee;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.8em;
+  }
+
+  .wl-rate-form button {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #eee;
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 0.82em;
+  }
+  .wl-rate-form button:hover { background: rgba(255,255,255,0.2); }
+
+  .wl-delete-btn {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 0.85em;
+    padding: 0 2px;
+    line-height: 1;
+  }
+  .wl-delete-btn:hover { color: #e05c5c; }
+
+  .wl-reviews {
+    margin-top: 5px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 4px;
+  }
+
+  .wl-review-line {
+    font-size: 0.72em;
+    color: #777;
+    margin-bottom: 2px;
+  }
+  .wl-review-line strong { color: #999; }
+
+  .wl-progress { color: #666; font-size: 0.72em; margin-left: 4px; }
+
+  #wl-list p { color: #666; font-size: 0.85em; text-align: center; padding: 10px 0; }
 </style>
 
-<!-- Firebase SDK — must load BEFORE any script that uses `firebase.*` -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-// ---------- Firebase config & init ----------
+// =============================================
+// Firebase init
+// =============================================
 const firebaseConfig = {
   apiKey: "AIzaSyCj_4x8Yuql0U2OCEx6eHK_KAd8mJjqoL4",
   authDomain: "jiera1.firebaseapp.com",
@@ -194,147 +367,103 @@ const firebaseConfig = {
   appId: "1:673366321859:web:35b3d4adf947e109249076",
   measurementId: "G-F0GXDYCLC4"
 };
-const fbApp = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
+const db   = firebase.firestore();
 
-// ---------- Window dragging ----------
+// =============================================
+// Window dragging
+// =============================================
 document.querySelectorAll('.window').forEach(win => {
   const header = win.querySelector('.window-header');
   header.onmousedown = (e) => {
     let shiftX = e.clientX - win.getBoundingClientRect().left;
     let shiftY = e.clientY - win.getBoundingClientRect().top;
-
-    function moveAt(pageX, pageY) {
-      win.style.left = pageX - shiftX + 'px';
-      win.style.top = pageY - shiftY + 'px';
-    }
-
-    function onMouseMove(e) { moveAt(e.pageX, e.pageY); }
-    document.addEventListener('mousemove', onMouseMove);
-
-    document.onmouseup = () => {
-      document.removeEventListener('mousemove', onMouseMove);
-    };
+    function moveAt(px, py) { win.style.left = px - shiftX + 'px'; win.style.top = py - shiftY + 'px'; }
+    function onMove(e) { moveAt(e.pageX, e.pageY); }
+    document.addEventListener('mousemove', onMove);
+    document.onmouseup = () => document.removeEventListener('mousemove', onMove);
   };
 });
 
-// ---------- Control panel sliders ----------
-const root = document.documentElement;
-const bgPicker = document.getElementById('bg-picker');
+// =============================================
+// Control panel sliders
+// =============================================
+const root        = document.documentElement;
+const bgPicker    = document.getElementById('bg-picker');
 const shadowRange = document.getElementById('shadow-range');
-const roundRange = document.getElementById('round-range');
-const blurRange = document.getElementById('blur-range');
+const roundRange  = document.getElementById('round-range');
+const blurRange   = document.getElementById('blur-range');
 
-bgPicker.oninput = () => {
-  root.style.setProperty('--bg-color', bgPicker.value + '80');
-  saveSettings();
-};
-shadowRange.oninput = () => {
-  root.style.setProperty('--shadow-size', shadowRange.value + 'px');
-  saveSettings();
-};
-roundRange.oninput = () => {
-  root.style.setProperty('--corner-radius', roundRange.value + 'px');
-  saveSettings();
-};
-blurRange.oninput = () => {
-  root.style.setProperty('--blur-amount', blurRange.value + 'px');
-  saveSettings();
-};
+bgPicker.oninput    = () => { root.style.setProperty('--bg-color',      bgPicker.value + '80'); saveSettings(); };
+shadowRange.oninput = () => { root.style.setProperty('--shadow-size',   shadowRange.value + 'px'); saveSettings(); };
+roundRange.oninput  = () => { root.style.setProperty('--corner-radius', roundRange.value + 'px'); saveSettings(); };
+blurRange.oninput   = () => { root.style.setProperty('--blur-amount',   blurRange.value + 'px'); saveSettings(); };
 
-// ---------- Persist control panel settings ----------
+// =============================================
+// Persist control panel settings
+// =============================================
 function saveSettings() {
   if (!currentUser) return;
   db.collection('userSettings').doc(currentUser.uid).set({
-    bgColor: bgPicker.value,
-    shadow: shadowRange.value,
-    roundness: roundRange.value,
-    blur: blurRange.value
-  }).catch(err => console.error('Failed to save settings:', err));
+    bgColor: bgPicker.value, shadow: shadowRange.value,
+    roundness: roundRange.value, blur: blurRange.value
+  }).catch(err => console.error('Save settings failed:', err));
 }
 
 function applySettings(data) {
-  bgPicker.value = data.bgColor;
-  shadowRange.value = data.shadow;
-  roundRange.value = data.roundness;
-  blurRange.value = data.blur;
-  root.style.setProperty('--bg-color', data.bgColor + '80');
-  root.style.setProperty('--shadow-size', data.shadow + 'px');
+  bgPicker.value = data.bgColor; shadowRange.value = data.shadow;
+  roundRange.value = data.roundness; blurRange.value = data.blur;
+  root.style.setProperty('--bg-color',      data.bgColor + '80');
+  root.style.setProperty('--shadow-size',   data.shadow + 'px');
   root.style.setProperty('--corner-radius', data.roundness + 'px');
-  root.style.setProperty('--blur-amount', data.blur + 'px');
+  root.style.setProperty('--blur-amount',   data.blur + 'px');
 }
 
 function loadSettings() {
   if (!currentUser) return;
   db.collection('userSettings').doc(currentUser.uid).get()
     .then(doc => { if (doc.exists) applySettings(doc.data()); })
-    .catch(err => console.error('Failed to load settings:', err));
+    .catch(err => console.error('Load settings failed:', err));
 }
 
-// ---------- Window resizing ----------
+// =============================================
+// Window resizing
+// =============================================
 document.querySelectorAll('.window').forEach(win => {
-  const resizer = document.createElement('div');
-  resizer.style.width = '10px';
-  resizer.style.height = '10px';
-  resizer.style.background = 'transparent';
-  resizer.style.position = 'absolute';
-  resizer.style.right = '0';
-  resizer.style.bottom = '0';
-  resizer.style.cursor = 'se-resize';
-  win.appendChild(resizer);
-
-  resizer.onmousedown = (e) => {
+  const r = document.createElement('div');
+  r.style.cssText = 'width:10px;height:10px;background:transparent;position:absolute;right:0;bottom:0;cursor:se-resize;';
+  win.appendChild(r);
+  r.onmousedown = (e) => {
     e.preventDefault();
-    let startX = e.clientX;
-    let startY = e.clientY;
-    let startWidth = parseInt(document.defaultView.getComputedStyle(win).width, 10);
-    let startHeight = parseInt(document.defaultView.getComputedStyle(win).height, 10);
-
-    function doDrag(e) {
-      win.style.width = (startWidth + e.clientX - startX) + 'px';
-      win.style.height = (startHeight + e.clientY - startY) + 'px';
-    }
-
-    function stopDrag() {
-      document.documentElement.removeEventListener('mousemove', doDrag, false);
-      document.documentElement.removeEventListener('mouseup', stopDrag, false);
-    }
-
-    document.documentElement.addEventListener('mousemove', doDrag, false);
-    document.documentElement.addEventListener('mouseup', stopDrag, false);
+    let sx = e.clientX, sy = e.clientY;
+    let sw = parseInt(getComputedStyle(win).width, 10);
+    let sh = parseInt(getComputedStyle(win).height, 10);
+    function doDrag(e) { win.style.width = (sw + e.clientX - sx) + 'px'; win.style.height = (sh + e.clientY - sy) + 'px'; }
+    function stopDrag() { document.documentElement.removeEventListener('mousemove', doDrag); document.documentElement.removeEventListener('mouseup', stopDrag); }
+    document.documentElement.addEventListener('mousemove', doDrag);
+    document.documentElement.addEventListener('mouseup', stopDrag);
   };
 });
 
-// ---------- Toggle button grid ----------
+// =============================================
+// Toggle button grid
+// =============================================
 const buttonGrid = document.createElement('div');
 buttonGrid.className = 'button-grid';
-const windowTitles = ['Resturant Tool', 'Weather Tool', 'Outfit Picker', 'Watch List Tracker', 'Countdown Timer', 'Link Tool', 'Idea Lab', 'Throwaway Email Creator', 'Colour Palette', 'Control Panel'];
+const windowTitles = ['Resturant Tool','Weather Tool','Outfit Picker','Watch List Tracker','Countdown Timer','Link Tool','Idea Lab','Throwaway Email Creator','Colour Palette','Control Panel'];
 windowTitles.forEach(title => {
   const btn = document.createElement('button');
   btn.textContent = title;
   btn.onclick = () => {
     const win = Array.from(document.querySelectorAll('.window')).find(w => w.querySelector('.window-header').textContent === title);
-    if (win.style.display === 'none') {
-      win.style.display = 'block';
-    } else {
-      win.style.display = 'none';
-    }
+    win.style.display = win.style.display === 'none' ? 'block' : 'none';
   };
   buttonGrid.appendChild(btn);
 });
 document.body.appendChild(buttonGrid);
 
-// ---------- Initial window state ----------
-document.querySelectorAll('.window').forEach(win => {
-  win.style.left = '50px';
-  win.style.top = '50px';
-});
-document.querySelectorAll('.window').forEach(win => {
-  win.style.display = 'none';
-});
-
-// ---------- Bring window to front on click ----------
+document.querySelectorAll('.window').forEach(win => { win.style.left = '50px'; win.style.top = '50px'; win.style.display = 'none'; });
 document.querySelectorAll('.window').forEach(win => {
   win.addEventListener('mousedown', () => {
     document.querySelectorAll('.window').forEach(w => w.style.zIndex = '10');
@@ -343,14 +472,13 @@ document.querySelectorAll('.window').forEach(win => {
 });
 
 // =============================================
-// Watchlist
+// Auth
 // =============================================
 let currentUser = null;
 let watchItems  = [];
 let unsubWatch  = null;
 
-const signInBtn        = document.getElementById('sign-in-btn');
-const watchlistContent = document.getElementById('watchlist-content');
+const signInBtn = document.getElementById('sign-in-btn');
 
 signInBtn.onclick = () => {
   if (currentUser) {
@@ -371,14 +499,17 @@ auth.onAuthStateChanged(user => {
   } else {
     if (unsubWatch) unsubWatch();
     watchItems = [];
-    document.getElementById('wl-list').innerHTML = '<p>Sign in to track shows and movies.</p>';
+    const listEl = document.getElementById('wl-list');
+    if (listEl) listEl.innerHTML = '<p>Sign in to track shows and movies.</p>';
   }
 });
 
+// =============================================
+// Watchlist controls binding
+// =============================================
 function bindWatchlistControls() {
-  // Add button
   document.getElementById('wl-type').onchange = function() {
-    document.getElementById('wl-tv-fields').style.display = this.value === 'tv' ? 'block' : 'none';
+    document.getElementById('wl-tv-fields').style.display = this.value === 'tv' ? 'flex' : 'none';
   };
 
   document.getElementById('wl-add-btn').onclick = () => {
@@ -387,11 +518,7 @@ function bindWatchlistControls() {
     const status = document.getElementById('wl-status').value;
     if (!title) return;
 
-    const data = {
-      title, type, status,
-      createdBy: currentUser.uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
+    const data = { title, type, status, createdBy: currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
     if (type === 'tv') {
       data.seasons         = parseInt(document.getElementById('wl-seasons').value, 10) || null;
       data.episodesWatched = parseInt(document.getElementById('wl-eps-watched').value, 10) || 0;
@@ -405,12 +532,14 @@ function bindWatchlistControls() {
       .catch(err => alert('Add failed: ' + err.message));
   };
 
-  // Filters & sort — re-render on change
   document.getElementById('wl-filter-status').onchange = renderWatchlist;
   document.getElementById('wl-filter-type').onchange   = renderWatchlist;
   document.getElementById('wl-sort').onchange          = renderWatchlist;
 }
 
+// =============================================
+// Firestore listener
+// =============================================
 function listenToWatchItems() {
   if (unsubWatch) unsubWatch();
   unsubWatch = db.collection('trackedItems')
@@ -429,6 +558,12 @@ async function loadRatings(item) {
   item._avg = nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : null;
 }
 
+// =============================================
+// Render
+// =============================================
+const STATUS_LABEL = { watching: '▶ Watching', completed: '✓ Completed', plan_to_watch: '⊕ Plan to watch' };
+const STATUS_COLOR = { watching: '#4a90d9', completed: '#5cb85c', plan_to_watch: '#f0ad4e' };
+
 function renderWatchlist() {
   const listEl = document.getElementById('wl-list');
   if (!listEl) return;
@@ -438,18 +573,13 @@ function renderWatchlist() {
   const sort         = document.getElementById('wl-sort').value;
 
   let items = [...watchItems];
-
-  // Filter
   if (filterStatus !== 'all') items = items.filter(i => i.status === filterStatus);
   if (filterType   !== 'all') items = items.filter(i => i.type   === filterType);
-
-  // Sort
   if (sort === 'alpha')  items.sort((a, b) => a.title.localeCompare(b.title));
   if (sort === 'rating') items.sort((a, b) => (b._avg || 0) - (a._avg || 0));
-  // 'added' stays as Firestore desc order
 
   if (!items.length) {
-    listEl.innerHTML = '<p style="color:#888;font-size:0.85em;">Nothing here yet.</p>';
+    listEl.innerHTML = '<p>Nothing here yet.</p>';
     return;
   }
 
@@ -463,45 +593,41 @@ function renderWatchlist() {
   });
 }
 
-const STATUS_LABEL = { watching: '▶ Watching', completed: '✓ Completed', plan_to_watch: '⊕ Plan to watch' };
-const STATUS_COLOR = { watching: '#4a90d9', completed: '#5cb85c', plan_to_watch: '#f0ad4e' };
-
 function itemCard(item) {
   const mine      = item._ratings.find(r => r.uid === currentUser.uid);
   const canDelete = item.createdBy === currentUser.uid;
   const progress  = item.type === 'tv'
     ? 'S' + (item.seasons || '?') + ' · Ep ' + (item.episodesWatched || 0) + (item.totalEpisodes ? '/' + item.totalEpisodes : '')
     : '';
-  const avgStr    = item._avg !== null ? '⭐ ' + item._avg.toFixed(1) + ' / 10' : 'No ratings yet';
+  const avgStr    = item._avg !== null ? '⭐ ' + item._avg.toFixed(1) + '/10' : 'No ratings';
   const statusCol = STATUS_COLOR[item.status] || '#888';
   const statusLbl = STATUS_LABEL[item.status] || item.status;
 
   return `
-    <div style="border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;margin-bottom:8px;background:rgba(0,0,0,0.15);">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div class="wl-card">
+      <div class="wl-card-top">
         <div>
-          <strong style="color:#eee;">${escapeHtml(item.title)}</strong>
-          <span style="font-size:0.75em;color:#888;margin-left:6px;">${item.type === 'tv' ? 'TV' : 'Movie'}</span>
-          ${progress ? '<span style="font-size:0.75em;color:#888;margin-left:4px;">' + progress + '</span>' : ''}
+          <span class="wl-title">${escapeHtml(item.title)}</span>
+          <span class="wl-badge">${item.type === 'tv' ? 'TV' : 'Movie'}</span>
+          ${progress ? '<span class="wl-progress">' + progress + '</span>' : ''}
         </div>
-        ${canDelete ? `<button id="wl-delete-${item.id}" style="background:none;border:none;color:#666;cursor:pointer;font-size:0.9em;">✕</button>` : ''}
+        ${canDelete ? `<button id="wl-delete-${item.id}" class="wl-delete-btn">✕</button>` : ''}
       </div>
-      <div style="margin:4px 0;">
-        <span style="font-size:0.75em;font-weight:600;color:${statusCol};">${statusLbl}</span>
-        <span style="font-size:0.8em;color:#f5c518;margin-left:8px;">${avgStr}</span>
-        <span style="font-size:0.75em;color:#666;margin-left:4px;">(${item._ratings.length})</span>
+      <div class="wl-meta">
+        <span class="wl-status-badge" style="color:${statusCol};">${statusLbl}</span>
+        <span class="wl-avg">${avgStr}</span>
+        <span class="wl-count">(${item._ratings.length})</span>
       </div>
-      <form id="wl-rate-${item.id}" style="display:flex;gap:4px;margin-top:6px;">
-        <input type="number" name="rating" min="1" max="10" placeholder="1-10" value="${mine ? mine.rating : ''}" required style="width:52px;background:#111;border:1px solid #333;color:#eee;border-radius:4px;padding:2px 4px;" />
-        <input type="text" name="review" placeholder="Review…" value="${mine ? escapeHtml(mine.review || '') : ''}" style="flex:1;background:#111;border:1px solid #333;color:#eee;border-radius:4px;padding:2px 6px;" />
-        <button type="submit" style="background:#333;border:none;color:#eee;border-radius:4px;padding:2px 8px;cursor:pointer;">${mine ? '↺' : '＋'}</button>
+      <form id="wl-rate-${item.id}" class="wl-rate-form">
+        <input type="number" name="rating" min="1" max="10" placeholder="1-10" value="${mine ? mine.rating : ''}" required />
+        <input type="text" name="review" placeholder="Review…" value="${mine ? escapeHtml(mine.review || '') : ''}" />
+        <button type="submit">${mine ? '↺' : '＋'}</button>
       </form>
       ${item._ratings.length ? `
-        <div style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:4px;">
+        <div class="wl-reviews">
           ${item._ratings.map(r => `
-            <div style="font-size:0.75em;color:#888;margin-bottom:2px;">
-              <strong style="color:#aaa;">${escapeHtml(r.displayName)}</strong>
-              ${r.rating}/10${r.review ? ' — ' + escapeHtml(r.review) : ''}
+            <div class="wl-review-line">
+              <strong>${escapeHtml(r.displayName)}</strong> ${r.rating}/10${r.review ? ' — ' + escapeHtml(r.review) : ''}
             </div>
           `).join('')}
         </div>
@@ -515,7 +641,6 @@ function onRate(e, itemId) {
   const rating = parseInt(e.target.rating.value, 10);
   const review = e.target.review.value.trim();
   if (rating < 1 || rating > 10) return alert('Rating must be 1-10.');
-
   db.collection('trackedItems').doc(itemId).collection('ratings').doc(currentUser.uid).set({
     uid: currentUser.uid, displayName: currentUser.displayName, rating, review,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -533,3 +658,4 @@ function escapeHtml(str) {
   div.textContent = str == null ? '' : str;
   return div.innerHTML;
 }
+</script>
